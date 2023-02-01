@@ -17,13 +17,18 @@ updateDisplay();
 })
 
 const appendNumber = (num) => {      //*alma
+//? Eğer ilk olarak 0 girilmişse geri dön
 if (!currOperand  && num ==='0') return;  //*burada bu koşul gerçeklesirse return et diyoruz yani anlamı
 //* burada kes ana programa dön başta 0(sfır girmesini engelledik)
 
-currOperand = num;
+//*? Eğer şu anki sayı . ise ve önceki girilen sayi  . içeriyorsa geri dön
+if(num === '.' && currOperand.includes('.')) return;
+
+//?Girilen sayıları birleştir
+currOperand += num;
 
 };
 
 const updateDisplay = () => {      //*gösterme
-    currDisp.textContent += currOperand
+    currDisp.textContent = currOperand
 }
