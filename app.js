@@ -5,7 +5,7 @@ const btnContainer = document.querySelector(".buttons-container")
 
 let currOperand = ""        //*ilk girilen curent ilk girilen sayılar
 let previousOperand = ""    //*yukarıda bir daha div var orda çıkan bu
-
+let operation = ""          //*Bunları işlem yaptırıp ileride displayde yazdırabilmek için globale taşıyorum
 //?Butonlari taşıyan container icin event tanımlaması
 btnContainer.addEventListener("click", (e) =>{
 //  console.log(e.target);
@@ -37,5 +37,12 @@ currOperand += num;
 };
 
 const updateDisplay = () => {      //*gösterme ekranda
-    currDisp.textContent = currOperand
+    currDisp.textContent = currOperand;
+    prevDisp.textContent = `${previousOperand} ${operation}`
+}
+
+const chooseOperator = (op) => {
+    operation = op;
+    previousOperand = currOperand;
+    currOperand = '';
 }
