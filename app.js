@@ -21,19 +21,27 @@ if (e.target.classList.contains('operator')){
 }
 })
 
-const appendNumber = (num) => {      //*alma
-//? Eğer ilk olarak 0 girilmişse geri dön
-if (!currOperand  && num ==='0') return;  //*burada bu koşul gerçeklesirse return et diyoruz yani anlamı
-//* burada kes ana programa dön başta 0(sfır girmesini engelledik)
+const appendNumber = (num) => {
+  //*alma
+  //? Eğer ilk olarak 0 girilmişse geri dön
+  if (currOperand === "0" && num === "0") return; //*burada bu koşul gerçeklesirse return et diyoruz yani anlamı
+  //* burada kes ana programa dön başta 0(sfır girmesini engelledik)
 
-//*? Eğer şu anki sayı . ise ve önceki girilen sayi  . içeriyorsa geri dön
-if(num === '.' && currOperand.includes('.')) return;
+  //? Eğer ilk olarak 0 girilmisse ve sonrasinda da . haricinde baska
+  //? bir sayi girilmis ise sadece girilen yeni sayiyi degiskene aktar.
+  //? Orn: 09 => 9 , 03 => 3 , 0.1 => 0.1
+  if (currOperand === "0" && num !== ".") {
+    currOperand = num;
+    return;
+  }
 
-if(currOperand.length > 10) return;
+  //*? Eğer şu anki sayı . ise ve önceki girilen sayi  . içeriyorsa geri dön
+  if (num === "." && currOperand.includes(".")) return;
 
-//?Girilen sayıları birleştir
-currOperand += num;
+  if (currOperand.length > 10) return;
 
+  //?Girilen sayıları birleştir
+  currOperand += num;
 };
 
 const updateDisplay = () => {      //*gösterme ekranda
@@ -42,7 +50,43 @@ const updateDisplay = () => {      //*gösterme ekranda
 }
 
 const chooseOperator = (op) => {
-    operation = op;
-    previousOperand = currOperand;
-    currOperand = '';
+  //? ilk sayi girisiinden sonraki islemleri gercekletir
+  if (previousOperand) {
+    calculate();
+  }
+  //? Degisken swapiing
+  operation = op;
+  previousOperand = currOperand;
+  currOperand = "";
 }
+
+const calculate = () => {
+  let calculation = 0;
+
+  const prev = Number(previousOperand);
+  const current = Number(currOperand);
+
+  switch (operation) {
+    case "+":
+      calculation = prev + current;
+      break;
+    case "-":
+      calculation = prev - current;
+      break;
+    case "x":
+      calculation = prev * current;
+      break;
+    case "÷":
+      calculation = prev / current;
+      break;
+    default:
+      return;
+  }
+
+  currOperand = calculation;
+
+  //? Esittir butonuna tiklanildiginda ekranda gozukmemesi icin
+  //? previousOperand ve operation'ı silmemiz gerekir
+  previousOperand = "";
+  operation = "";
+};
