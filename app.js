@@ -3,8 +3,8 @@ const currDisp = document.querySelector(".current-display");
 
 const btnContainer = document.querySelector(".buttons-container")
 
-let currOperand = ""        //*ilk girilen curent
-let previousOperand = ""    
+let currOperand = ""        //*ilk girilen curent ilk girilen sayılar
+let previousOperand = ""    //*yukarıda bir daha div var orda çıkan bu
 
 //?Butonlari taşıyan container icin event tanımlaması
 btnContainer.addEventListener("click", (e) =>{
@@ -14,6 +14,11 @@ if(e.target.classList.contains("num")){     //*classlist içinde num diye bir cl
 appendNumber(e.target.textContent);
 updateDisplay();
 }  
+
+if (e.target.classList.contains('operator')){
+    chooseOperator(e.target.textContent);
+    updateDisplay();
+}
 })
 
 const appendNumber = (num) => {      //*alma
@@ -24,11 +29,13 @@ if (!currOperand  && num ==='0') return;  //*burada bu koşul gerçeklesirse ret
 //*? Eğer şu anki sayı . ise ve önceki girilen sayi  . içeriyorsa geri dön
 if(num === '.' && currOperand.includes('.')) return;
 
+if(currOperand.length > 10) return;
+
 //?Girilen sayıları birleştir
 currOperand += num;
 
 };
 
-const updateDisplay = () => {      //*gösterme
+const updateDisplay = () => {      //*gösterme ekranda
     currDisp.textContent = currOperand
 }
